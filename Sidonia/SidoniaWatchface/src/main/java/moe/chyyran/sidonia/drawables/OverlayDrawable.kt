@@ -1,8 +1,6 @@
-package moe.chyyran.sidonia.Drawables
-import android.app.WallpaperManager
+package moe.chyyran.sidonia.drawables
 import android.graphics.*
 import com.ustwo.clockwise.wearable.WatchFace
-import moe.chyyran.sidonia.R
 
 
 class OverlayDrawable(watch: WatchFace) : SidoniaDrawable(watch) {

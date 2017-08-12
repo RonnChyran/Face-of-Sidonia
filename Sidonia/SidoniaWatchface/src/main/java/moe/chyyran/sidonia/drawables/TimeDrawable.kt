@@ -1,4 +1,4 @@
-package moe.chyyran.sidonia.Drawables
+package moe.chyyran.sidonia.drawables
 
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -13,10 +13,7 @@ class TimeDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
     private var STATUS_WAIT_SEC: Int = 0
 
     private var mTextPaint: Paint
-    private var mTLTextPoint: PointF
-    private var mTRTextPoint: PointF
-    private var mBLTextPoint: PointF
-    private var mBRTextPoint: PointF
+    private var mArabicTextPaint: Paint
 
     private var mCenterBlockWidth: Float = 0.toFloat()
     private var mCenterBoldLines: FloatArray
@@ -33,19 +30,11 @@ class TimeDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
         mTextPaint = Paint()
         mTextPaint.typeface = this.kanjiFont
         mTextPaint.textSize = textSize
-        val fontMetrics = mTextPaint.fontMetrics
         mTextPaint.color = alertColor
         mTextPaint.isAntiAlias = true
 
-        var halfTextWidth = mTextPaint.measureText("０") / 2f
-        var halfTextHeight = (fontMetrics.ascent + fontMetrics.descent) / 2f
-        var top = edgeOffset + hudCellWidth + mCenterBlockWidth / 2f
-
-        mTLTextPoint = PointF(top - halfTextWidth, top - halfTextHeight)
-        mTRTextPoint = PointF(top + mCenterBlockWidth - halfTextWidth, top - halfTextHeight)
-        mBLTextPoint = PointF(top - halfTextWidth, top + mCenterBlockWidth - halfTextHeight)
-        mBRTextPoint = PointF(top + mCenterBlockWidth - halfTextWidth, top + mCenterBlockWidth - halfTextHeight)
-
+        mArabicTextPaint = Paint(mTextPaint)
+        mArabicTextPaint.typeface = this.latinFont
 
         mCenterBoldLines = floatArrayOf(
                 // Vertical Lines
@@ -54,34 +43,39 @@ class TimeDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
                 hudCellWidth * 1f + edgeOffset, hudCellWidth * 1f + edgeOffset, hudCellWidth * 4f + edgeOffset, hudCellWidth * 1f + edgeOffset, hudCellWidth * 1f + edgeOffset, hudCellWidth * 4f + edgeOffset, hudCellWidth * 4f + edgeOffset, hudCellWidth * 4f + edgeOffset)
     }
 
-    fun drawTime(canvas: Canvas?, time: WatchFaceTime) {
+    fun drawTime(canvas: Canvas?, time: WatchFaceTime, formatNumeral: (Int) -> String, isArabic: Boolean = false, is24hour: Boolean = true) {
         canvas?.save()
+        val timeHour = if (is24hour) time.hour else time.hour12
+        val topLeftDigit = formatNumeral(timeHour / 10)
+        val mTLTextPoint = getDrawPoint(0, 0, topLeftDigit, mTextPaint)
+
+        val topRightDigit = formatNumeral(timeHour % 10)
+        val mTRTextPoint = getDrawPoint(1, 0, topLeftDigit, mTextPaint)
+
+        val bottomLeftDigit = formatNumeral(time.minute / 10)
+        val mBLTextPoint = getDrawPoint(0, 1, bottomLeftDigit, mTextPaint)
+
+        val bottomRightDigit = formatNumeral(time.minute % 10)
+        val mBRTextPoint = getDrawPoint(1, 1, bottomRightDigit, mTextPaint)
+
+        val timePaint = if (isArabic) mArabicTextPaint else mTextPaint
         alertBoldPaint.color = alertColor
         canvas?.drawLine(hudCellWidth * 1f + edgeOffset, desiredMinimumWidth / 2f, hudCellWidth * 4f + edgeOffset, desiredMinimumWidth / 2f, alertBoldPaint)
         canvas?.drawLine(desiredMinimumWidth / 2f, hudCellWidth * 1f + edgeOffset, desiredMinimumWidth / 2f, hudCellWidth * 4f + edgeOffset, alertBoldPaint)
         canvas?.drawLines(mCenterBoldLines, alertBoldPaint)
-        canvas?.drawText(getKanjiNumeral(time.hour / 10), mTLTextPoint.x, mTLTextPoint.y, mTextPaint)
-        canvas?.drawText(getKanjiNumeral(time.hour % 10), mTRTextPoint.x, mTRTextPoint.y, mTextPaint)
-        canvas?.drawText(getKanjiNumeral(time.minute / 10), mBLTextPoint.x, mBLTextPoint.y, mTextPaint)
-        canvas?.drawText(getKanjiNumeral(time.minute % 10), mBRTextPoint.x, mBRTextPoint.y, mTextPaint)
+        canvas?.drawText(topLeftDigit, mTLTextPoint.x, mTLTextPoint.y, timePaint)
+        canvas?.drawText(topRightDigit, mTRTextPoint.x, mTRTextPoint.y, timePaint)
+        canvas?.drawText(bottomLeftDigit, mBLTextPoint.x, mBLTextPoint.y, timePaint)
+        canvas?.drawText(bottomRightDigit, mBRTextPoint.x, mBRTextPoint.y, timePaint)
         canvas?.restore()
     }
 
-    private fun getKanjiNumeral(num: Int): String {
-        var c = ""
-
-        when (num) {
-            0 -> c = "零"
-            1 -> c = "壱"
-            2 -> c = "弐"
-            3 -> c = "参"
-            4 -> c = "四"
-            5 -> c = "五"
-            6 -> c = "六"
-            7 -> c = "七"
-            8 -> c = "八"
-            9 -> c = "九"
-        }
-        return c
+    fun getDrawPoint(column: Int, row: Int, numeral: String, paint: Paint): PointF {
+        val fontMetrics = paint.fontMetrics
+        var halfTextWidth = mTextPaint.measureText(numeral) / 2f
+        var halfTextHeight = (fontMetrics.ascent + fontMetrics.descent) / 2f
+        var top = edgeOffset + hudCellWidth + mCenterBlockWidth / 2f
+        return PointF(top - halfTextWidth + column * mCenterBlockWidth, top - halfTextHeight + row * mCenterBlockWidth)
     }
+
 }

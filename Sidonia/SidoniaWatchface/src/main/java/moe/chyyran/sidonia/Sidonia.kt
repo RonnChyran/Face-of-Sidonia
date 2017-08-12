@@ -19,17 +19,15 @@ package moe.chyyran.sidonia
 import android.graphics.Canvas
 import android.graphics.Color
 import com.ustwo.clockwise.wearable.WatchFace
-import moe.chyyran.sidonia.Drawables.*
+import moe.chyyran.sidonia.drawables.*
 import android.os.BatteryManager
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
+import android.preference.PreferenceFragment
 import android.text.format.DateUtils
-import android.view.Gravity
 import android.support.wearable.watchface.WatchFaceStyle
-
-
-
-
+import android.preference.PreferenceManager
 
 
 /**
@@ -44,6 +42,7 @@ class Sidonia : WatchFace() {
     internal lateinit var mBattery: BatteryDrawable
     internal var mBatteryPct: Int = 0
     internal var isCharging: Boolean = false
+    internal lateinit var mSharedPreferences: SharedPreferences
 
     override fun getWatchFaceStyle(): WatchFaceStyle {
         val builder = WatchFaceStyle.Builder(this)
@@ -63,20 +62,35 @@ class Sidonia : WatchFace() {
         mTime = TimeDrawable(this)
         mStatus = StatusDrawable(this)
         mBattery = BatteryDrawable(this)
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         updateBatteryStatus()
         super.onCreate()
     }
 
     override fun onDraw(canvas: Canvas?) {
         this.updateBatteryStatus()
+        val converter = getConverter()
+        val isArabic = mSharedPreferences.getString(this.resources.getString(R.string.pref_sidonia_number_format), "daiji") == "arabic"
+        val is24hour = mSharedPreferences.getBoolean(this.resources.getString(R.string.pref_am_pm), true)
         canvas?.drawColor(Color.BLACK)
         mBattery.drawBatteryPercent(canvas, this.mBatteryPct, this.isCharging)
-        mTime.drawTime(canvas, this.time)
+        mTime.drawTime(canvas, this.time, converter, isArabic, is24hour)
         mGrid.drawGrid(canvas)
         mStatus.drawWeekDay(canvas, this.time)
         mStatus.drawDate(canvas, this.time)
         mOverlay.drawOverlay(canvas)
 
+    }
+    private fun getConverter(): (Int) -> String {
+        val pref = mSharedPreferences.getString(this.resources.getString(R.string.pref_sidonia_number_format), "daiji")
+        when (pref) {
+            "daiji" -> return ::convertDaiji
+            "arabic" -> return ::convertArabic
+            "daijifull" -> return ::convertDaijiFull
+            "kyuujitai" -> return ::convertKyuujitai
+            "suuji" -> return ::convertSuuji
+            else -> return ::convertDaiji
+        }
     }
 
     private fun updateBatteryStatus() {

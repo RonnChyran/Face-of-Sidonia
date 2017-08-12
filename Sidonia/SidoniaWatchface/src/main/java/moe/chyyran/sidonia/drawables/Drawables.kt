@@ -1,4 +1,4 @@
-package moe.chyyran.sidonia.Drawables
+package moe.chyyran.sidonia.drawables
 
 import android.graphics.Paint
 import android.graphics.Typeface

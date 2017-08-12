@@ -28,6 +28,7 @@ import android.preference.PreferenceFragment
 import android.text.format.DateUtils
 import android.support.wearable.watchface.WatchFaceStyle
 import android.preference.PreferenceManager
+import com.ustwo.clockwise.common.WatchShape
 
 
 /**
@@ -73,12 +74,21 @@ class Sidonia : WatchFace() {
         val isArabic = mSharedPreferences.getString(this.resources.getString(R.string.pref_sidonia_number_format), "daiji") == "arabic"
         val is24hour = mSharedPreferences.getBoolean(this.resources.getString(R.string.pref_am_pm), true)
         canvas?.drawColor(Color.BLACK)
+        canvas?.save()
+        if (watchShape.equals(WatchShape.CIRCLE) && canvas != null) {
+            val centerX = canvas.width / 2f
+            val centerY = canvas.height / 2f
+            val ratio = 2f / Math.PI.toFloat()
+            canvas.scale(ratio, ratio, centerX, centerY)
+            canvas.save()
+        }
         mBattery.drawBatteryPercent(canvas, this.mBatteryPct, this.isCharging)
         mTime.drawTime(canvas, this.time, converter, isArabic, is24hour)
         mGrid.drawGrid(canvas)
         mStatus.drawWeekDay(canvas, this.time)
         mStatus.drawDate(canvas, this.time)
         mOverlay.drawOverlay(canvas)
+        canvas?.restore()
 
     }
     private fun getConverter(): (Int) -> String {

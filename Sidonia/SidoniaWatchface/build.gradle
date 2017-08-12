@@ -24,7 +24,7 @@ dependencies {
     provided 'com.google.android.wearable:wearable:2.0.3'
     compile 'com.google.android.support:wearable:2.0.3'
     compile 'com.google.android.gms:play-services-wearable:11.0.4'
-    compile 'com.ustwo.android:clockwise-wearable:1.0.2'
+    compile 'com.github.ustwo:clockwise:develop-SNAPSHOT'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 repositories {

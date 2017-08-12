@@ -26,13 +26,27 @@
             <meta-data
                 android:name="com.google.android.wearable.watchface.preview_circular"
                 android:resource="@drawable/preview_digital_circular" />
-
+            <meta-data
+                android:name=
+                    "com.google.android.wearable.watchface.wearableConfigurationAction"
+                android:value=
+                    "moe.chyyran.sidonia.configuration.CONFIG_DIGITAL" />
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />
                 <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE" />
             </intent-filter>
         </service>
-
+        <activity
+            android:name=".configuration.SidoniaConfigActivity"
+            android:label="Sidonia Config">
+            <intent-filter>
+                <action android:name=
+                    "moe.chyyran.sidonia.configuration.CONFIG_DIGITAL" />
+                <category android:name=
+                    "com.google.android.wearable.watchface.category.WEARABLE_CONFIGURATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

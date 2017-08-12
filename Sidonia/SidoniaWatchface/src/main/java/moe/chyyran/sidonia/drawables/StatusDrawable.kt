@@ -1,10 +1,8 @@
-package moe.chyyran.sidonia.Drawables
+package moe.chyyran.sidonia.drawables
 
 import android.graphics.*
-import android.text.format.Time
-
-import com.ustwo.clockwise.WatchFace
-import com.ustwo.clockwise.WatchFaceTime
+import com.ustwo.clockwise.common.WatchFaceTime
+import com.ustwo.clockwise.wearable.WatchFace
 
 private class TextOffsets(val leftTextOffset: PointF, val rightTextOffset: PointF, val halfHeightTextOffset: PointF)
 

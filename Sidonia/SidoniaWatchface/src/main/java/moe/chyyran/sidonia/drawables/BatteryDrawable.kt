@@ -1,10 +1,10 @@
-package moe.chyyran.sidonia.Drawables
+package moe.chyyran.sidonia.drawables
 
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PointF
 
-import com.ustwo.clockwise.WatchFace
+import com.ustwo.clockwise.wearable.WatchFace
 
 class BatteryDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
     internal var mNumTextPaint: Paint
@@ -56,6 +56,10 @@ class BatteryDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
         if (isCharging) {
             mTextPaint.color = this.alertColor
             canvas?.drawText("電", mTopTextPoint.x, mTopTextPoint.y, mTextPaint)
+            mTextPaint.color = this.hudColor
+        } else if (batteryPct < 20){
+            mTextPaint.color = this.criticalColor
+            canvas?.drawText("低", mTopTextPoint.x, mTopTextPoint.y, mTextPaint)
             mTextPaint.color = this.hudColor
         } else {
             // Fill the cell

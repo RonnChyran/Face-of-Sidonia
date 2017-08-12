@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreference
+        android:key="@string/pref_am_pm"
+        android:title="@string/title_ampm"
+        android:icon="@drawable/ic_access_time_white_24dp"
+        android:defaultValue="true"
+        />
+
+    <ListPreference
+        android:defaultValue="daiji"
+        android:entries="@array/entries_numerals"
+        android:entryValues="@array/values_numerals"
+        android:icon="@drawable/ic_brush_white_24dp"
+        android:key="@string/pref_sidonia_number_format"
+        android:title="@string/title_format" />
+
+</PreferenceScreen>

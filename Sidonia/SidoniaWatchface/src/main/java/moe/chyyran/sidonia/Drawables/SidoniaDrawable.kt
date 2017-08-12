@@ -5,7 +5,7 @@ import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.Typeface
 import android.support.v4.content.ContextCompat
-import com.ustwo.clockwise.WatchFace
+import com.ustwo.clockwise.wearable.WatchFace
 import moe.chyyran.sidonia.R
 
 abstract class SidoniaDrawable(watch: WatchFace) {

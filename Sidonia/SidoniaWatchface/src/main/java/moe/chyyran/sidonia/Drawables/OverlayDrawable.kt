@@ -1,7 +1,7 @@
 package moe.chyyran.sidonia.Drawables
 import android.app.WallpaperManager
 import android.graphics.*
-import com.ustwo.clockwise.WatchFace
+import com.ustwo.clockwise.wearable.WatchFace
 import moe.chyyran.sidonia.R
 
 

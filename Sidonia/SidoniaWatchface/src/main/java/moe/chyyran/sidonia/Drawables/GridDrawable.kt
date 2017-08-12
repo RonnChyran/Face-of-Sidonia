@@ -3,7 +3,7 @@ package moe.chyyran.sidonia.Drawables
 
 import android.graphics.Canvas
 
-import com.ustwo.clockwise.WatchFace
+import com.ustwo.clockwise.wearable.WatchFace
 
 class GridDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
 

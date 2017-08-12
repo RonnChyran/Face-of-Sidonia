@@ -18,12 +18,18 @@ package moe.chyyran.sidonia
 
 import android.graphics.Canvas
 import android.graphics.Color
-import com.ustwo.clockwise.WatchFace
+import com.ustwo.clockwise.wearable.WatchFace
 import moe.chyyran.sidonia.Drawables.*
 import android.os.BatteryManager
 import android.content.Intent
 import android.content.IntentFilter
 import android.text.format.DateUtils
+import android.view.Gravity
+import android.support.wearable.watchface.WatchFaceStyle
+
+
+
+
 
 
 /**
@@ -38,6 +44,18 @@ class Sidonia : WatchFace() {
     internal lateinit var mBattery: BatteryDrawable
     internal var mBatteryPct: Int = 0
     internal var isCharging: Boolean = false
+
+    override fun getWatchFaceStyle(): WatchFaceStyle {
+        val builder = WatchFaceStyle.Builder(this)
+                .setAcceptsTapEvents(true)
+                .setCardProgressMode(WatchFaceStyle.PROGRESS_MODE_NONE)
+        return builder.build()
+    }
+
+    override fun onTapCommand(tapType: Int, x: Int, y: Int, eventTime: Long) {
+        //todo: Make something happen for a time.
+        super.onTapCommand(tapType, x, y, eventTime)
+    }
 
     override fun onCreate() {
         mGrid = GridDrawable(this)

@@ -3,9 +3,9 @@ package moe.chyyran.sidonia.Drawables
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PointF
-import android.text.format.Time
 
-import com.ustwo.clockwise.WatchFace
+import com.ustwo.clockwise.common.WatchFaceTime
+import com.ustwo.clockwise.wearable.WatchFace
 
 import moe.chyyran.sidonia.R
 
@@ -54,7 +54,7 @@ class TimeDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
                 hudCellWidth * 1f + edgeOffset, hudCellWidth * 1f + edgeOffset, hudCellWidth * 4f + edgeOffset, hudCellWidth * 1f + edgeOffset, hudCellWidth * 1f + edgeOffset, hudCellWidth * 4f + edgeOffset, hudCellWidth * 4f + edgeOffset, hudCellWidth * 4f + edgeOffset)
     }
 
-    fun drawTime(canvas: Canvas?, time: Time) {
+    fun drawTime(canvas: Canvas?, time: WatchFaceTime) {
         canvas?.save()
         alertBoldPaint.color = alertColor
         canvas?.drawLine(hudCellWidth * 1f + edgeOffset, desiredMinimumWidth / 2f, hudCellWidth * 4f + edgeOffset, desiredMinimumWidth / 2f, alertBoldPaint)

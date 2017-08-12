@@ -5,6 +5,7 @@ import android.graphics.Paint
 import android.graphics.PointF
 
 import com.ustwo.clockwise.common.WatchFaceTime
+import com.ustwo.clockwise.common.util.Logr
 import com.ustwo.clockwise.wearable.WatchFace
 
 import moe.chyyran.sidonia.R
@@ -50,7 +51,7 @@ class TimeDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
         val mTLTextPoint = getDrawPoint(0, 0, topLeftDigit, mTextPaint)
 
         val topRightDigit = formatNumeral(timeHour % 10)
-        val mTRTextPoint = getDrawPoint(1, 0, topLeftDigit, mTextPaint)
+        val mTRTextPoint = getDrawPoint(1, 0, topRightDigit, mTextPaint)
 
         val bottomLeftDigit = formatNumeral(time.minute / 10)
         val mBLTextPoint = getDrawPoint(0, 1, bottomLeftDigit, mTextPaint)
@@ -75,7 +76,7 @@ class TimeDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
         var halfTextWidth = mTextPaint.measureText(numeral) / 2f
         var halfTextHeight = (fontMetrics.ascent + fontMetrics.descent) / 2f
         var top = edgeOffset + hudCellWidth + mCenterBlockWidth / 2f
-        return PointF(top - halfTextWidth + column * mCenterBlockWidth, top - halfTextHeight + row * mCenterBlockWidth)
+        return PointF(top - halfTextWidth + column * mCenterBlockWidth + if (numeral.equals("1")) 8f else 0f, top - halfTextHeight + row * mCenterBlockWidth)
     }
 
 }

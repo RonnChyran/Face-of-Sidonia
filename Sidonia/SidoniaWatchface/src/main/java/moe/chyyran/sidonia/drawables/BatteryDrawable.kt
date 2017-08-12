@@ -57,6 +57,10 @@ class BatteryDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
             mTextPaint.color = this.alertColor
             canvas?.drawText("電", mTopTextPoint.x, mTopTextPoint.y, mTextPaint)
             mTextPaint.color = this.hudColor
+        } else if (batteryPct < 20){
+            mTextPaint.color = this.criticalColor
+            canvas?.drawText("低", mTopTextPoint.x, mTopTextPoint.y, mTextPaint)
+            mTextPaint.color = this.hudColor
         } else {
             // Fill the cell
             canvas?.drawRect(mTopBlockOffset.x, mTopBlockOffset.y,

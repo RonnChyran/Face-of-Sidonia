@@ -11,6 +11,7 @@ import moe.chyyran.sidonia.R
 abstract class SidoniaDrawable(watch: WatchFace) {
     val desiredMinimumWidth: Int = WallpaperManager.getInstance(watch).desiredMinimumWidth
     val hudColor: Int = ContextCompat.getColor(watch.applicationContext, R.color.hud)
+    val criticalColor: Int = ContextCompat.getColor(watch.applicationContext, R.color.critical)
     val backgroundColor: Int = ContextCompat.getColor(watch.applicationContext, R.color.digital_background)
     val alertColor: Int = ContextCompat.getColor(watch.applicationContext, R.color.alert)
     val kanjiFont: Typeface = Typeface.createFromAsset(watch.assets, watch.resources.getString(R.string.kanji_font))
@@ -21,6 +22,7 @@ abstract class SidoniaDrawable(watch: WatchFace) {
     val hudPaint: Paint
     val alertPaint: Paint
     val alertBoldPaint: Paint
+    val criticalPaint: Paint
 
     init {
         this.hudBoldPaint = createTextPaint(this.hudColor)
@@ -38,6 +40,9 @@ abstract class SidoniaDrawable(watch: WatchFace) {
         this.alertPaint = createTextPaint(this.alertColor)
         this.alertPaint.strokeWidth = this.edgeOffset / 4f
         this.alertPaint.isAntiAlias = true
+
+        this.criticalPaint = Paint(this.hudPaint)
+        this.criticalPaint.color = this.criticalColor
     }
 
     fun getCellOffset(row: Int, column: Int) : PointF {

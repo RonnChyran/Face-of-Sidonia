@@ -14,4 +14,16 @@
         <item>daijifull</item>
         <item>kyuujitai</item>
     </string-array>
+
+    <string-array name="entries_fonts" tools:translatable="false">
+        <item>M+</item>
+        <item>Makinas</item>
+        <item>Kaiso</item>
+    </string-array>
+
+    <string-array name="values_fonts" tools:translatable="false">
+        <item>@string/kanji_font_mplus</item>
+        <item>@string/kanji_font_makinas</item>
+        <item>@string/kanji_font_kaiso</item>
+    </string-array>
 </resources>

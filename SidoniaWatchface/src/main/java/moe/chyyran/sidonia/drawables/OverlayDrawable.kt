@@ -12,7 +12,6 @@ class OverlayDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
     private val overlayCharacterHeightDiff : Float
 
     init {
-        mTextPaint.typeface = this.kanjiFont
         mTextPaint.color = this.hudColor
         mTextPaint.textSize = desiredMinimumWidth / 5.5f
 
@@ -50,8 +49,8 @@ class OverlayDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
 
         when {
             time.hour >= 18 || time.hour <= 5 -> return "夜"
-            time.hour >= 6 || time.hour <= 11 -> return "朝"
             time.hour >= 12 || time.hour <= 17 -> return "昼"
+            time.hour >= 6 || time.hour <= 11 -> return "朝"
             else -> return default
         }
     }
@@ -73,6 +72,9 @@ class OverlayDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
 
     fun drawCharacter(canvas: Canvas?, character: String, row: Int, column: Int, inverted: Boolean = false) {
         canvas?.save()
+        mTextPaint.typeface = this.kanjiFont
+        mInvertedPaint.typeface = this.kanjiFont
+
         val cellOffset = this.getCellOffset(row, column)
         val characterOffset = PointF(cellOffset.x + overlayCharacterWidthDiff,
                 cellOffset.y + overlayCharacterHeightDiff)

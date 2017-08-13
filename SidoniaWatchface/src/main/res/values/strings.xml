@@ -1,12 +1,17 @@
 <resources>
     <string name="app_name">Sidonia</string>
     <string name="message">Watch face tapped</string>
-    <string name="my_digital_name">Sidonia Watchface</string>
-    <string name="kanji_font">mplus-1c-regular.ttf</string>
+    <string name="my_digital_name">Sidonia</string>
+    <string name="kanji_font_makinas">Makinas-Scrap-5.otf</string>
+    <string name="kanji_font_mplus">mplus-1c-regular.ttf</string>
+    <string name="kanji_font_kaiso">Kaiso-Next-B.otf</string>
+
     <string name="latin_font">Hallandale Stencil Bold JL.ttf</string>
     <string name="title_format">Numeral Format</string>
+    <string name="title_font">Font</string>
     <string name="title_ampm">Use 24-hour Time</string>
     <string name="pref_sidonia_number_format">sidonia_number_format</string>
+    <string name="pref_sidonia_font">sidonia_font</string>
     <string name="pref_am_pm">am_pm</string>
 
 </resources>

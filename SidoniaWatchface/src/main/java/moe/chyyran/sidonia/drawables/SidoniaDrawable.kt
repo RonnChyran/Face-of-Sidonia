@@ -4,7 +4,9 @@ import android.app.WallpaperManager
 import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.Typeface
+import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
+import com.ustwo.clockwise.common.util.Logr
 import com.ustwo.clockwise.wearable.WatchFace
 import moe.chyyran.sidonia.R
 
@@ -14,7 +16,6 @@ abstract class SidoniaDrawable(watch: WatchFace) {
     val criticalColor: Int = ContextCompat.getColor(watch.applicationContext, R.color.critical)
     val backgroundColor: Int = ContextCompat.getColor(watch.applicationContext, R.color.digital_background)
     val alertColor: Int = ContextCompat.getColor(watch.applicationContext, R.color.alert)
-    val kanjiFont: Typeface = Typeface.createFromAsset(watch.assets, watch.resources.getString(R.string.kanji_font))
     val latinFont: Typeface = Typeface.createFromAsset(watch.assets, watch.resources.getString(R.string.latin_font))
     val edgeOffset: Float =  this.desiredMinimumWidth / 80f
     val hudCellWidth: Float = (this.desiredMinimumWidth - this.edgeOffset * 2f) / 5f
@@ -23,6 +24,21 @@ abstract class SidoniaDrawable(watch: WatchFace) {
     val alertPaint: Paint
     val alertBoldPaint: Paint
     val criticalPaint: Paint
+    val preferences = PreferenceManager.getDefaultSharedPreferences(watch)
+    private val watch = watch
+    private val makinasKanjiFont: Typeface = Typeface.createFromAsset(watch.assets, watch.resources.getString(R.string.kanji_font_makinas))
+    private val kaisoKanjiFont: Typeface = Typeface.createFromAsset(watch.assets, watch.resources.getString(R.string.kanji_font_kaiso))
+    private val mplusKanjiFont: Typeface = Typeface.createFromAsset(watch.assets, watch.resources.getString(R.string.kanji_font_mplus))
+
+    val kanjiFont: Typeface get(){
+        val font = preferences.getString(watch.resources.getString(R.string.pref_sidonia_font), watch.resources.getString(R.string.kanji_font_mplus))
+        when (font) {
+            watch.resources.getString(R.string.kanji_font_makinas) -> return makinasKanjiFont
+            watch.resources.getString(R.string.kanji_font_kaiso) -> return kaisoKanjiFont
+            watch.resources.getString(R.string.kanji_font_mplus) -> return mplusKanjiFont
+            else -> return mplusKanjiFont
+        }
+    }
 
     init {
         this.hudBoldPaint = createTextPaint(this.hudColor)

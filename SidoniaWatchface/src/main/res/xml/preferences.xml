@@ -17,4 +17,12 @@
         android:key="@string/pref_sidonia_number_format"
         android:title="@string/title_format" />
 
+    <ListPreference
+        android:defaultValue="@string/kanji_font_mplus"
+        android:entries="@array/entries_fonts"
+        android:entryValues="@array/values_fonts"
+        android:icon="@drawable/ic_text_format_white_24dp"
+        android:key="@string/pref_sidonia_font"
+        android:title="@string/title_font" />
+
 </PreferenceScreen>

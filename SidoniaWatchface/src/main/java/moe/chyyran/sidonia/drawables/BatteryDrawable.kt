@@ -15,8 +15,7 @@ class BatteryDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
     internal var mTopNumPoint: PointF
 
     init {
-        val textSize = desiredMinimumWidth / 5.5f
-        val textNumSize = desiredMinimumWidth / 6f
+        val textNumSize = desiredMinimumWidth / 6.3f
 
         mTopBlockOffset = this.getCellOffset(1, 0)
 
@@ -30,7 +29,6 @@ class BatteryDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
 
         // 文字用
         mTextPaint = Paint(mNumTextPaint)
-        mTextPaint.typeface = this.kanjiFont
         mTextPaint.color = this.hudColor
 
         // Top
@@ -53,6 +51,7 @@ class BatteryDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
 
     fun drawBatteryPercent(canvas: Canvas?, batteryPct: Int, isCharging: Boolean) {
         canvas?.save()
+        mTextPaint.typeface = this.kanjiFont
         if (isCharging) {
             mTextPaint.color = this.alertColor
             canvas?.drawText("電", mTopTextPoint.x, mTopTextPoint.y, mTextPaint)

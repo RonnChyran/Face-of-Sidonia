@@ -2,6 +2,7 @@ package moe.chyyran.sidonia.drawables
 
 import android.graphics.*
 import com.ustwo.clockwise.common.WatchFaceTime
+import com.ustwo.clockwise.common.util.Logr
 import com.ustwo.clockwise.wearable.WatchFace
 
 private class TextOffsets(val rightTextOffset: PointF, val halfHeightTextOffset: PointF)
@@ -45,7 +46,7 @@ class StatusDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
     }
 
     private fun createDatePaint() : Paint {
-        val textSize = desiredMinimumWidth / 6.25f
+        val textSize = desiredMinimumWidth / 6.3f
         val paint = Paint()
         paint.typeface = this.latinFont
         paint.color = this.backgroundColor
@@ -55,11 +56,9 @@ class StatusDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
     }
 
     fun drawTime(canvas: Canvas?, time: WatchFaceTime) {
-        val text = time.hour12.toString() + if (time.minute > 9)
-            time.minute.toString()
-        else
-            "0" + time.minute.toString()
-
+        // We use twelve hour time here because it is guaranteed not to go past 1259.
+        // If for example the clock turned 0000, the grid would be unable to contain the numerics.
+        val text = (if (time.hour % 12 == 0) 12 else (time.hour % 12)).toString() + ((if (time.minute > 9) "" else "0") + time.minute.toString())
         val textOffsets = getTextOffsets(text)
         canvas?.drawRect(hudCellWidth * 2f + edgeOffset,
                 edgeOffset,
@@ -75,10 +74,8 @@ class StatusDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
 
     fun drawDate(canvas: Canvas?, time: WatchFaceTime) {
         // Months are zero-indexed, so we have to add one in order to correct for it.
-        val text = ((time.month % 10) + 1).toString() + (if (time.monthDay > 9)
-            time.monthDay.toString()
-        else
-            "0" + time.monthDay.toString())
+        val month = time.month + 1
+        val text = month.toString() + ((if (time.monthDay > 9) "" else "0") + time.monthDay.toString())
         val textOffsets = getTextOffsets(text)
 
         val startOffset = this.getCellOffset(0, 2)

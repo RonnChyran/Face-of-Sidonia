@@ -29,7 +29,6 @@ class TimeDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
 
         // Digit Display
         mTextPaint = Paint()
-        mTextPaint.typeface = this.kanjiFont
         mTextPaint.textSize = textSize
         mTextPaint.color = alertColor
         mTextPaint.isAntiAlias = true
@@ -53,13 +52,14 @@ class TimeDrawable(watch: WatchFace) : SidoniaDrawable(watch) {
 
     fun drawCharacter(canvas: Canvas?, row: Int, column: Int, character: String, paint: Paint = mTextPaint) {
         canvas?.save()
+        mTextPaint.typeface = this.kanjiFont
         val textPoint = getDrawPoint(column, row, character, paint)
         canvas?.drawText(character, textPoint.x, textPoint.y, paint)
         canvas?.restore()
     }
     fun drawTime(canvas: Canvas?, time: WatchFaceTime, formatNumeral: (Int) -> String, isArabic: Boolean = false, is24hour: Boolean = true) {
         canvas?.save()
-        val timeHour = if (is24hour) time.hour else time.hour12
+        val timeHour = if (is24hour) time.hour else if (time.hour % 12 == 0) 12 else (time.hour % 12)
         val timePaint = if (isArabic) mArabicTextPaint else mTextPaint
 
         val topLeftDigit = formatNumeral(timeHour / 10)
